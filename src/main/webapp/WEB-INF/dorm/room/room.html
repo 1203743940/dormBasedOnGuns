@@ -1,0 +1,109 @@
+@layout("/common/_container.html",{plugins:["table","ztree","layer","sweet-alert"],js:["/assets/modular/dorm/room/room.js"]}){
+<div class="row">
+    <div class="col-lg-2 col-sm-3 p-r-0">
+        <div class="card card-outline-theme">
+            <div class="card-header">
+                <h5 class="m-b-0 text-white">房间选择</h5>
+            </div>
+            <div class="card-body">
+                <ul id="roomTree" class="ztree"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-10 col-sm-9"  id="roomPage">
+        <div class="row">
+            <div class="col-lg-12">
+        <div class="card card-outline-theme m-b-10">
+            <div class="card-body">
+                <div class="form-horizontal">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">房间容量</div>
+                                    </div>
+                                    <input v-model="capacity" type="text" class="form-control" placeholder="请输入房间容量" autocomplete="off">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">剩余容量</div>
+                                    </div>
+                                    <input v-model="remain" type="text" class="form-control" placeholder="请输入剩余容量" autocomplete="off">
+                                </div>
+                            </div>
+                            <!--<div class="col-md-3">-->
+                                <!--<div class="input-group">-->
+                                    <!--<div class="input-group-prepend">-->
+                                        <!--<div class="input-group-text">注册日期</div>-->
+                                    <!--</div>-->
+                                    <!--<input type="text" id="timeLimit" class="form-control" placeholder="注册日期" autocomplete="off">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <div class="col-md-3">
+                                <div class="input-group condition-button">
+                                    <div class="input-group-btn condition-button">
+                                        <button type="button" id="check-minutes"
+                                                class="btn btn-info waves-effect waves-light condition-button-width" onclick="Room.search()">查询</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card card-outline-theme m-b-0">
+            <div class="card-body p-t-0 p-b-0">
+                <div class="form-horizontal">
+                    <div class="form-actions">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card m-b-0 p-b-0">
+                                    <div class="hidden-xs" id="RoomTableToolbar" role="group">
+                                        @if(shiro.hasPermission("/room/add")){
+                                        <button type="button" class="btn btn-primary waves-effect" onclick="Room.openAddRoom()">
+                                            <i class="fa fa-plus"></i>&nbsp;添加
+                                        </button>
+                                        @}
+                                        @if(shiro.hasPermission("/room/update")){
+                                        <button type="button" class="btn btn-primary waves-effect m-l-5" onclick="Room.openRoomDetail()">
+                                            <i class="fa fa-edit"></i>&nbsp;修改
+                                        </button>
+                                        @}
+                                        @if(shiro.hasPermission("/room/delete")){
+                                        <button type="button" class="btn btn-primary waves-effect m-l-5" onclick="Room.delete()">
+                                            <i class="fa fa-remove"></i>&nbsp;删除
+                                        </button>
+                                        @}
+                                        @if(shiro.hasPermission("/liver/add")){
+                                        <button type="button" class="btn btn-primary waves-effect m-l-5" onclick="Room.openAddLiver()">
+                                            <i class="fa fa-user-plus"></i>&nbsp;添加住户
+                                        </button>
+                                        @}
+                                        @if(shiro.hasPermission("/room/livers")){
+                                        <button type="button" class="btn btn-primary waves-effect m-l-5" onclick="Room.openRoomLivers()">
+                                            <i class="fa fa-address-book"></i>&nbsp;房间住户信息
+                                        </button>
+                                        @}
+                                    </div>
+                                    <#table id="RoomTable"/>
+                                      </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@}

@@ -1,0 +1,89 @@
+@layout("/common/_dialog.html",{plugins:["laydate","sweet-alert","layer"],js:["/assets/modular/dorm/room/room_add.js"]}){
+<div class="container-fluid">
+    <form id="roomAddForm" \@submit="submitForm">
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group">
+                    <h5>房间容量 <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input v-model="capacity" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>住户人数 <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input v-model="liverNum" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>床位数量</h5>
+                    <div class="controls">
+                        <input v-model="bedNum" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>桌子数量 </h5>
+                    <div class="controls">
+                        <input v-model="deskNum" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>椅子数量</h5>
+                    <div class="controls">
+                        <input v-model="chairNum" type="number" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    <h5>衣柜数量</h5>
+                    <div class="controls">
+                        <input v-model="chestNum" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>空调数量</h5>
+                    <div class="controls">
+                        <input v-model="airNum" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>钥匙数量</h5>
+                    <div class="controls">
+                        <input v-model="keyNum" type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>房间号 <span class="text-danger">*</span></h5>
+                    <div class="controls">
+                        <input v-model="simpleName" id="simpleName" \@click="showRoomSelectTree" type="text" class="form-control" autocomplete="off">
+                        <input v-model="buildingId" type="hidden" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <h5>水电费</h5>
+                    <div class="controls">
+                        <input disabled type="text" class="form-control" value="由物业提供">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <h5>备注</h5>
+                <div class="controls">
+                    <textarea v-model="comment" class="form-control" ></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="text-xs-right">
+                    <button class="btn btn-info normal-button-width" \@click="ensure">提交</button>
+                    <button class="btn btn-inverse normal-button-width m-l-10" \@click="close">取消</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@}

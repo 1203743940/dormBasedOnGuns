@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.dorm.mapper.LiverMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.dorm.entity.Liver">
+        <id column="LIVER_ID" property="liverId"/>
+        <result column="ROOM_ID" property="roomId"/>
+        <result column="PID" property="pid"/>
+        <result column="EMPLOYEE_NAME" property="employeeName"/>
+        <result column="SEX" property="sex"/>
+        <result column="BIRTHDAY" property="birthday"/>
+        <result column="PHONE" property="phone"/>
+        <result column="IDENTIFY" property="identify"/>
+        <result column="COMPANY" property="company"/>
+        <result column="EDUCATION" property="education"/>
+        <result column="JOB" property="job"/>
+        <result column="ADDRESS" property="address"/>
+        <result column="START_DATE" property="startDate"/>
+        <result column="END_DATE" property="endDate"/>
+        <result column="LIVER_STATUS" property="liverStatus"/>
+        <result column="VISIABLE" property="visiable"/>
+        <result column="KEY_IF" property="keyIf"/>
+        <result column="COMMENT" property="comment"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="CREATE_USER" property="createUser"/>
+        <result column="UPDATE_USER" property="updateUser"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        LIVER_ID AS liverId, ROOM_ID AS roomId, PID AS pid,
+         EMPLOYEE_NAME AS employeeName, SEX AS sex, BIRTHDAY AS birthday,
+          PHONE AS phone, IDENTIFY AS identify, LIVER_STATUS AS liverStatus,
+          VISIABLE AS visiable,
+          COMPANY AS company,EDUCATION AS education,JOB AS job,
+          ADDRESS AS address,START_DATE AS startDate,END_DATE AS endDate,
+          KEY_IF AS keyIf,COMMENT AS comment,
+          CREATE_TIME AS createTime, UPDATE_TIME AS updateTime, CREATE_USER AS createUser, UPDATE_USER AS updateUser
+    </sql>
+    <select id="list" resultType="map">
+        select
+        <include refid="Base_Column_List"></include>
+        from tb_liver
+        <if test="condition != null and condition != ''">
+            where EMPLOYEE_NAME like CONCAT('%',#{condition},'%') or ROOM_ID like CONCAT('%',#{condition},'%') or COMPANY like CONCAT('%',#{condition},'%')
+        </if>
+        order by CREATE_TIME DESC
+    </select>
+
+
+</mapper>

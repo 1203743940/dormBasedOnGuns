@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.stylefeng.guns.modular.dorm.mapper.RoomMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.stylefeng.guns.modular.dorm.entity.Room">
+        <id column="ROOM_ID" property="roomId" />
+        <result column="CAPACITY" property="capacity" />
+        <result column="LIVER_NUM" property="liverNum" />
+        <result column="BED_NUM" property="bedNum" />
+        <result column="DESK_NUM" property="deskNum" />
+        <result column="CHAIR_NUM" property="chairNum" />
+        <result column="CHEST_NUM" property="chestNum" />
+        <result column="AIR_NUM" property="airNum" />
+        <result column="KEY_NUM" property="keyNum" />
+        <result column="UTILITIES" property="utilities" />
+        <result column="COMMENT" property="comment" />
+        <result column="STATUS" property="status" />
+
+        <result column="CREATE_TIME" property="createTime" />
+        <result column="CREATE_USER" property="createUser" />
+        <result column="UPDATE_TIME" property="updateTime" />
+        <result column="UPDATE_USER" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+
+    <sql id="Base_Column_List">
+        ROOM_ID AS roomId, CAPACITY AS capacity, LIVER_NUM AS liverNum, BED_NUM AS bedNum,
+        DESK_NUM AS deskNum,CHAIR_NUM AS chairNum,CHEST_NUM AS chestNum,AIR_NUM AS airNum,
+        KEY_NUM AS keyNum,UTILITIES AS utilities,COMMENT AS comment,STATUS AS status,
+        CREATE_TIME AS createTime, CREATE_USER AS createUser, UPDATE_TIME AS updateTime, UPDATE_USER AS updateUser
+    </sql>
+
+
+    <!--<select id="list" resultType="map">-->
+        <!--select-->
+        <!--<include refid="Base_Column_List"></include>-->
+        <!--from tb_room-->
+        <!--<if test="condition != null and condition != ''">-->
+            <!--where ROOM_ID like CONCAT('%',#{condition},'%') or CONTENT like CONCAT('%',#{condition},'%')-->
+        <!--</if>-->
+        <!--order by CREATE_TIME DESC-->
+    <!--</select>-->
+
+    <select id="list" resultType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_building where STATUS = 'ENABLE'
+        <if test="condition != null and condition != ''">
+            and SIMPLE_NAME like CONCAT('%',#{condition},'%') or FULL_NAME like CONCAT('%',#{condition},'%') or SORT like CONCAT('%',#{condition},'%')
+        </if>
+        <if test="buildingId != null and buildingId != ''">
+            and (BUILDING_ID = #{buildingId} or BUILDING_ID in ( select BUILDING_ID from tb_building where PIDS like CONCAT('%[', #{buildingId}, ']%') ))
+        </if>
+        order by SORT ASC
+    </select>
+
+    <select id="getRoomIdsByBuildingId" resultType="long">
+        select ROOM_ID from
+        tb_room where BUILDING_ID = #{buildingId}
+    </select>
+
+    <select id="roomTreeList" resultType="cn.stylefeng.guns.core.common.node.ZTreeNode">
+		select BUILDING_ID AS id, PID as pId, SIMPLE_NAME as name,
+		(
+		CASE
+		WHEN (PID = 0 OR PID IS NULL) THEN
+		'true'
+		ELSE
+		'false'
+		END
+		) as open from tb_building
+	</select>
+
+    <select id="selectRooms" resultType="map">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_room
+        where STATUS = 'ENABLE'
+        <if test="roomId != null and roomId != 0">
+            and (ROOM_ID in (select SIMPLE_NAME from tb_building where BUILDING_ID= #{roomId}) or ROOM_ID in ( select SIMPLE_NAME from tb_building where PIDS like CONCAT('%[', #{roomId}, ']%') ))
+        </if>
+        <if test="capacity != null and capacity != ''">
+            and CAPACITY = #{capacity}
+        </if>
+
+
+    </select>
+    <select id="tree" resultType="cn.stylefeng.guns.core.common.node.ZTreeNode">
+		select BUILDING_ID AS id, PID as pId, SIMPLE_NAME as name,
+		(
+		CASE
+		WHEN (PID = 0 OR PID IS NULL) THEN
+		'true'
+		ELSE
+		'false'
+		END
+		) as open from tb_building
+	</select>
+
+</mapper>
